@@ -15,13 +15,13 @@ type DetailVideo = {
 }
 
 export default class VideosController {
-  async index({ request, response }: HttpContext) {
+  async index({ response }: HttpContext) {
     try {
       const results = await fetch('https://chudai-api.ouwi.fun/api/video')
       const resultData = (await results.json()) as ListVideo
       // eslint-disable-next-line @unicorn/no-instanceof-array
       if (resultData.data instanceof Array) {
-        let sliceBkp = resultData.data.slice(0, 5)
+        //let sliceBkp = resultData.data.slice(0, 5)
         return response.ctx?.view.render('pages/home', { name: 'msbutnno', data: resultData.data })
       }
       return response.ctx?.view.render('pages/home', { name: 'msbutnno' })
@@ -30,7 +30,7 @@ export default class VideosController {
     }
   }
 
-  async video({ params, request, response }: HttpContext) {
+  async video({ params, response }: HttpContext) {
     const { slug } = params
     if (!slug) return response.ctx?.view.render('pages/errors/not_found')
     try {
