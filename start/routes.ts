@@ -8,5 +8,7 @@
 */
 
 import router from '@adonisjs/core/services/router'
+const VideosController = () => import('#controllers/videos_controller')
 
-router.on('/').render('pages/home')
+router.get('/', [VideosController, 'index'])
+router.get('/v/:slug', [VideosController, 'video'])

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>
+      {{ data.title }} - Chudai
+    </title>
+    @include('partials/tailwind')
+    @include('partials/ads')
+    <link href="https://vjs.zencdn.net/8.16.1/video-js.css" rel="stylesheet" />
+
+    <style>
+      .vid-eo {
+        width: 100%;
+        height: 320px;
+      }
+    </style>
+  </head>
+  <body class="bg-black">
+    <header>
+      <h3 class=" py-3 text-center text-2xl font-bold text-blue-800">
+        <a href="/">Chudai Videos</a>
+      </h3>
+    </header>
+    <main class="w-full">
+      <div class="w-3/5 max-w-4xl mx-auto rounded overflow-hidden shadow-lg bg-white">
+        {{--  <img
+          class="w-full h-64 object-contain"
+          src="https://chudai-api.ouwi.fun/v1/api/thumbnail/{{ x.thumb }}"
+          alt="Card Image"
+        />  --}}
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">
+            {{ data.title }}
+          </div>
+          <p class="text-gray-700 text-base">
+            {{ data.desc }}
+          </p>
+        </div>
+        <div>
+          <video
+            id="my-video"
+            class="video-js vid-eo"
+            controls
+            preload="auto"
+            poster="https://chudai-api.ouwi.fun/v1/api/thumbnail/{{ data.thumb }}"
+            data-setup="{}"
+            {{--  width="90%"
+            height="364"  --}}
+          >
+            <source src="https://chudai-api.ouwi.fun/v1/api/chudai/{{ data.url }}" type="video/mp4" />
+            {{--  <source src="MY_VIDEO.webm" type="video/webm" />  --}}
+            <p class="vjs-no-js">
+              To view this video please enable JavaScript, and consider upgrading to a
+              web browser that
+              <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+            </p>
+          </video>
+        </div>
+        <div class="px-7 mt-3 flex w-full flex-col gap-y-2 justify-center items-center">
+          <a
+            class="text-blue-600 block font-bold"
+            href="https://www.cpmrevenuegate.com/niy8yc18?key=316e15581661046014aa9a2565b8d23f"
+          >Downloads -></a>
+          <a
+            class="text-blue-600 block font-bold"
+            href="https://www.cpmrevenuegate.com/niy8yc18?key=316e15581661046014aa9a2565b8d23f"
+          >Download Video -></a>
+        </div>
+        <div class="px-6 py-2 mt-4">
+          @each(tag in data.tags)
+            <span
+              class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2"
+            >#{{ tag.tag }}</span>
+          @end
+        </div>
+      </div>
+    </main>
+    <script src="https://vjs.zencdn.net/8.16.1/video.min.js">
+      
+    </script>
+    <script type="text/javascript">
+      let player = videojs("my-video", {});
+      
+      player.ready(function() {
+        player.on("contextmenu", function(event) {
+          event.preventDefault();
+        });
+      });
+    </script>
+  </body>
+</html>
