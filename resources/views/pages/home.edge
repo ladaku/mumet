@@ -11,55 +11,58 @@
     {{--  <script data-cfasync="false" type='text/script' src='//pl24550268.cpmrevenuegate.com/a8/8c/60/a88c6086631726a24ada6a123f086521.js'>
       
     </script>  --}}
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     @include('partials/ads')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
   </head>
   <body class="bg-black">
     @include('partials/pungent_ads')
-    <header>
-      <h3 class=" py-3 text-center text-2xl font-bold text-blue-800">
-        Chudai Videos
-      </h3>
-    </header>
-    <div class="flex flex-col items-center w-full max-w-2xl py-3 mx-auto border-2 gap-3 px-3">
-      @each(x in data)
-        <div class="w-full rounded overflow-hidden shadow-lg bg-white">
-          <img
-            class="w-full h-64 object-contain"
-            src="https://chudai-api.ouwi.fun/v1/api/thumbnail/{{ x.thumb }}"
-            alt="Card Image"
-          />
-          <div class="px-6 py-4">
-            <div class="font-bold text-xl mb-2">
-              {{ x.title }}
-            </div>
-            <p class="text-gray-700 text-base">
-              {{ x.desc }}
-            </p>
+    {{--  <div class="" id="container-611b4143263e16d2cd4c17219cc9db76">  --}}
+  </div>
+  <header>
+    <h3 class=" py-3 text-center text-2xl font-bold text-blue-800">
+      Chudai Videos
+    </h3>
+  </header>
+  <div class="flex flex-col items-center w-full max-w-2xl py-3 mx-auto border-2 gap-3 px-3">
+    @each(x in data)
+      <div class="w-full rounded overflow-hidden shadow-lg bg-white">
+        <img
+          class="w-full h-64 object-contain"
+          src="https://chudai-api.ouwi.fun/v1/api/thumbnail/{{ x.thumb }}"
+          alt="Card Image"
+        />
+        <div class="px-6 py-4">
+          <div class="font-bold text-xl mb-2">
+            {{ x.title }}
           </div>
-          <div class="px-7">
-            <a class="text-blue-600 block font-bold" href="/v/{{ x.slug }}">See Video 1 -></a>
-            <a
-              class="text-blue-600 block font-bold"
-              href="https://www.cpmrevenuegate.com/niy8yc18?key=316e15581661046014aa9a2565b8d23f"
-            >See Video 2 -></a>
-          </div>
-          <div class="px-6 py-2 mt-4">
-            @each(tag in x.tags)
-              <span
-                class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2"
-              >#{{ tag.tag }}</span>
-            @end
-          </div>
+          <p class="text-gray-700 text-base">
+            {{ x.desc }}
+          </p>
         </div>
-      @end
-    </div>
-    <div class="pt-4 h-8 flex flex-col">
-      <div
-        class="text-sm text-white text-center [&>code]:font-medium [&>code]:text-[#a599ff] bg-sand-12 text-sand-1 relative py-2"
-      >
-        Created Icibozz
+        <div class="px-7">
+          <a class="text-blue-600 block font-bold" href="/v/{{ x.slug }}">See Video 1 -></a>
+          <a
+            class="text-blue-600 block font-bold"
+            href="https://www.cpmrevenuegate.com/niy8yc18?key=316e15581661046014aa9a2565b8d23f"
+          >See Video 2 -></a>
+        </div>
+        <div class="px-6 py-2 mt-4">
+          @each(tag in x.tags)
+            <span
+              class="inline-block bg-blue-200 rounded-full px-3 py-1 text-sm font-semibold text-blue-700 mr-2 mb-2"
+            >#{{ tag.tag }}</span>
+          @end
+        </div>
       </div>
+    @end
+  </div>
+  <div class="pt-4 h-8 flex flex-col">
+    <div
+      class="text-sm text-white text-center [&>code]:font-medium [&>code]:text-[#a599ff] bg-sand-12 text-sand-1 relative py-2"
+    >
+      Created Icibozz
     </div>
-  </body>
+  </div>
+</body>
 </html>
