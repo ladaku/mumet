@@ -10,6 +10,27 @@
 
 import router from '@adonisjs/core/services/router'
 import server from '@adonisjs/core/services/server'
+// import { defineConfig } from '@adonisjs/core/bodyparser'
+
+// export const defineConfig: any({
+//   allowedMethods: ['POST', 'PUT', 'PATCH', 'DELETE'],
+
+//   form: {
+//     // settings for parsing HTML forms
+//   },
+
+//   json: {
+//     // Settings for parsing JSON body
+//   },
+
+//   multipart: {
+//     // Settings for multipart parser
+//   },
+
+//   raw: {
+//     // Settings for a raw text parser
+//   },
+// })
 
 /**
  * The error handler is used to convert an exception

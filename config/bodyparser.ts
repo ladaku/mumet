@@ -12,6 +12,7 @@ const bodyParserConfig = defineConfig({
    * content-type parser
    */
   form: {
+    limit: '200mb',
     convertEmptyStringsToNull: true,
     types: ['application/x-www-form-urlencoded'],
   },
@@ -47,7 +48,7 @@ const bodyParserConfig = defineConfig({
      * Maximum limit of data to parse including all files
      * and fields
      */
-    limit: '20mb',
+    limit: '200mb',
     types: ['multipart/form-data'],
   },
 })

@@ -1,4 +1,13 @@
+import Video from '#models/video'
+import { Application } from '@adonisjs/core/app'
+import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
+import app from '@adonisjs/core/services/app'
+import db from '@adonisjs/lucid/services/db'
+import { existsSync } from 'node:fs'
+import path from 'node:path'
+import fs from 'node:fs/promises'
+import { DateTime } from 'luxon'
 
 type ListVideo = {
   message: string
@@ -17,16 +26,52 @@ type DetailVideo = {
 export default class VideosController {
   async index({ response }: HttpContext) {
     try {
-      const results = await fetch('https://chudai-api.ouwi.fun/api/video')
-      const resultData = (await results.json()) as ListVideo
+      // const results = await fetch('https://chudai-api.ouwi.fun/api/video')
+      // const resultData = (await results.json()) as ListVideo
       // eslint-disable-next-line @unicorn/no-instanceof-array
-      if (resultData.data instanceof Array) {
-        //let sliceBkp = resultData.data.slice(0, 5)
-        return response.ctx?.view.render('pages/home', { name: 'msbutnno', data: resultData.data })
-      }
-      return response.ctx?.view.render('pages/home', { name: 'msbutnno' })
+      // if (resultData.data instanceof Array) {
+      //   //let sliceBkp = resultData.data.slice(0, 5)
+      //   return response.ctx?.view.render('pages/index', { name: 'msbutnno', data: resultData.data })
+      // }
+      const videos = await Video.all()
+      console.log(videos)
+
+      let now = DateTime.local()
+
+      return response.ctx?.view.render('pages/video/index', {
+        data: videos.map((item) => ({
+          ...item.$original,
+          createdAt: item.$original.createdAt.toFormat('yyyy-MM-dd HH:mm:ss'),
+        })),
+      })
     } catch (error) {
-      return response.ctx?.view.render('pages/errors/server_error')
+      return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
+    }
+  }
+
+  async indexPaging({ request, response }: HttpContext) {
+    try {
+      // const results = await fetch('https://chudai-api.ouwi.fun/api/video')
+      // const resultData = (await results.json()) as ListVideo
+      // eslint-disable-next-line @unicorn/no-instanceof-array
+      // if (resultData.data instanceof Array) {
+      //   //let sliceBkp = resultData.data.slice(0, 5)
+      //   return response.ctx?.view.render('pages/index', { name: 'msbutnno', data: resultData.data })
+      // }
+
+      const page = request.input('page', 1)
+      const posts = await db.from('videos').orderBy('id', 'desc').paginate(page, 10)
+      console.log(posts, 'mikkk')
+      // posts.map((item) => ({
+      //   ...item.$original,
+      //   createdAt: item.$original.createdAt.toFormat('yyyy-MM-dd HH:mm:ss'),
+      // })),
+      posts.baseUrl('/')
+      return response.ctx?.view.render('pages/index', {
+        posts,
+      })
+    } catch (error) {
+      return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
     }
   }
 
@@ -34,15 +79,65 @@ export default class VideosController {
     const { slug } = params
     if (!slug) return response.ctx?.view.render('pages/errors/not_found')
     try {
-      const result = await fetch(`https://chudai-api.ouwi.fun/api/video/detail/${slug}`)
-      const responseJson = (await result.json()) as DetailVideo
-      if (responseJson.code === 400) {
-        return response.ctx?.view.render('pages/errors/not_found')
-      }
+      let blue = await Video.findBy('code', slug)
 
-      return response.ctx?.view.render('pages/video', { data: responseJson.data })
+      return response.ctx?.view.render('pages/video', { data: blue?.$original })
     } catch (error) {
-      return response.ctx?.view.render('pages/errors/server_error')
+      return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
+    }
+  }
+
+  async create({ request, response }: HttpContext) {
+    // db.table('video').returning('id').insert({
+    //   title: 'juiha',
+    //   desc: 'engeh',
+    // })
+
+    try {
+      const thumb = request.file('thumb')
+      await thumb?.move(app.makePath('storage/thumb'), {
+        name: `${cuid()}.${thumb.extname}`,
+      })
+
+      const video = request.file('video')
+      await video?.move(app.makePath('storage/video'), {
+        name: `${cuid()}.${video.extname}`,
+      })
+
+      const reslt = await Video.create({
+        title: request.body().title,
+        desc: request.body().desc,
+        code: cuid().slice(0, 8),
+        thumb: thumb?.fileName,
+        file_video: video?.fileName,
+      })
+      return response.redirect('/portal/video')
+    } catch (error) {
+      console.log(error)
+
+      return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
+    }
+  }
+
+  async destroy({ request, response, params }: HttpContext) {
+    try {
+      let video = await Video.findOrFail(params?.id)
+      let vidFile = `storage/video/${video.$original?.file_video}`
+      let thumbFile = `storage/thumb/${video.$original?.thumb}`
+
+      let exsf = existsSync(vidFile)
+      if (exsf === true) await fs.unlink(vidFile)
+      let existThumb = existsSync(thumbFile)
+      if (existThumb === true) await fs.unlink(thumbFile)
+
+      await video.delete()
+      const resolvedPath = path.resolve('/storage/video/c7itg3rinxyi83t7w9lmclg.mp4')
+      console.log(params, resolvedPath, vidFile, exsf, video, 'hahah')
+      //await fs.unlink(huhu)
+      return response.redirect().back()
+    } catch (error) {
+      console.log(error)
+      return response.redirect().back()
     }
   }
 }
