@@ -1,5 +1,4 @@
 import Video from '#models/video'
-import { Application } from '@adonisjs/core/app'
 import { cuid } from '@adonisjs/core/helpers'
 import type { HttpContext } from '@adonisjs/core/http'
 import app from '@adonisjs/core/services/app'
@@ -7,21 +6,21 @@ import db from '@adonisjs/lucid/services/db'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 import fs from 'node:fs/promises'
-import { DateTime } from 'luxon'
+// import { DateTime } from 'luxon'
 
-type ListVideo = {
-  message: string
-  data?: any[]
-  status: boolean
-  code: number
-}
+// type ListVideo = {
+//   message: string
+//   data?: any[]
+//   status: boolean
+//   code: number
+// }
 
-type DetailVideo = {
-  message: string
-  data?: any
-  status: boolean
-  code: number
-}
+// type DetailVideo = {
+//   message: string
+//   data?: any
+//   status: boolean
+//   code: number
+// }
 
 export default class VideosController {
   async index({ response }: HttpContext) {
@@ -36,7 +35,7 @@ export default class VideosController {
       const videos = await Video.all()
       console.log(videos)
 
-      let now = DateTime.local()
+      // let now = DateTime.local()
 
       return response.ctx?.view.render('pages/video/index', {
         data: videos.map((item) => ({
@@ -104,7 +103,7 @@ export default class VideosController {
         name: `${cuid()}.${video.extname}`,
       })
 
-      const reslt = await Video.create({
+      await Video.create({
         title: request.body().title,
         desc: request.body().desc,
         code: cuid().slice(0, 8),
@@ -119,7 +118,7 @@ export default class VideosController {
     }
   }
 
-  async destroy({ request, response, params }: HttpContext) {
+  async destroy({ response, params }: HttpContext) {
     try {
       let video = await Video.findOrFail(params?.id)
       let vidFile = `storage/video/${video.$original?.file_video}`
