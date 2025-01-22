@@ -170,7 +170,7 @@
 		"../scss//plugins/free/_nouislider.scss",
 		"../scss//plugins/free/_prism.scss",
 		"../scss//plugins/free/_perfect-scrollbar.scss",
-		"../scss/custom/_styles.scss"
+		"../scss/custom/_styles.scss" 
 	],
 	"sourcesContent": [
 		"// =========================================================\n// * Argon Dashboard 2 - v2.0.4\n// =========================================================\n//\n// * Product Page: https://www.creative-tim.com/product/argon-dashboard\n// * Copyright 2022 Creative Tim (https://www.creative-tim.com)\n//\n// Coded by www.creative-tim.com\n//\n// =========================================================\n//\n// * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\n// Bootstrap Functions\n@import \"bootstrap/functions\";\n\n// Custom Variables\n@import \"custom/variables\";\n\n// Theme Variables\n@import \"/variables\";\n\n// Bootstrap Core\n@import \"bootstrap/bootstrap\";\n\n// Theme Core\n@import \"/theme\";\n\n// Custom Variables\n@import \"custom/styles\";\n",

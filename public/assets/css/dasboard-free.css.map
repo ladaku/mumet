@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"file": "dashboard-free.css",
+	"file": "dashboard-free.css", 
 	"sources": [
 		"../scss/dashboard-free.scss",
 		"../scss/bootstrap/_functions.scss",
