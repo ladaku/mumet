@@ -1,1 +1,2 @@
-console.log("mumettt");console.log("kokok");
+console.log('mumetdtt')
+console.log('kokok')
