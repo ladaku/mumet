@@ -15,7 +15,7 @@ router.get('/portal/video', [VideosController, 'index'])
 router.get('/v/:slug', [VideosController, 'video'])
 
 //router.on('/').render('pages/home')
-router.get('/', [VideosController, 'indexPaging'])
+router.get('/', [VideosController, 'chudaiIndex'])
 router.on('/dashboard').render('pages/home')
 router.on('/table').render('pages/table')
 router.on('/billing').render('pages/billing')

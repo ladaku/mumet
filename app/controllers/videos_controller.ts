@@ -5,24 +5,56 @@ import app from '@adonisjs/core/services/app'
 import db from '@adonisjs/lucid/services/db'
 import { existsSync } from 'node:fs'
 import path from 'node:path'
+import env from '#start/env'
 import fs from 'node:fs/promises'
 // import { DateTime } from 'luxon'
 
-// type ListVideo = {
-//   message: string
-//   data?: any[]
-//   status: boolean
-//   code: number
-// }
+type ListVideo = {
+  message: string
+  data?: any[]
+  status: boolean
+  code: number
+}
 
-// type DetailVideo = {
-//   message: string
-//   data?: any
-//   status: boolean
-//   code: number
-// }
+type DetailVideo = {
+  message: string
+  data?: any
+  status: boolean
+  code: number
+}
 
 export default class VideosController {
+  async chudaiIndex({ response, request }: HttpContext) {
+    try {
+      let page: number = 1
+      let size: number = 10
+      if (request.qs().page && request.qs().size) {
+        page = request.qs().page
+        size = request.qs().size
+      }
+
+      const results = await fetch(
+        `https://chudai-api.ouwi.fun/api/v1/posts/?page=${page - 1}&size=${size}`
+      )
+
+      const resultData = (await results.json()) as ListVideo
+      //  console.log('hoii', resultData, env.get('WITH_ADS'))
+      // eslint-disable-next-line @unicorn/no-instanceof-array
+      // if (resultData.data instanceof Array) {
+      //   let sliceBkp = resultData.data
+      //   return response.ctx?.view.render('pages/index', {
+      //     posts: [],
+      //   })
+      // }
+      let renderView: string = env.get('WITH_ADS') ? 'pages/index' : 'pages/indexNoAds'
+      return response.ctx?.view.render(renderView, {
+        posts: resultData.data,
+      })
+    } catch (error) {
+      return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
+    }
+  }
+
   async index({ response }: HttpContext) {
     try {
       // const results = await fetch('https://chudai-api.ouwi.fun/api/video')
@@ -78,9 +110,12 @@ export default class VideosController {
     const { slug } = params
     if (!slug) return response.ctx?.view.render('pages/errors/not_found')
     try {
-      let blue = await Video.findBy('code', slug)
+      // let blue = await Video.findBy('code', slug)
+      const result = await fetch(`https://chudai-api.ouwi.fun/api/v1/posts/${slug}`)
+      let resp = (await result.json()) as DetailVideo
 
-      return response.ctx?.view.render('pages/video', { data: blue?.$original })
+      let renderView: string = env.get('WITH_ADS') ? 'pages/video' : 'pages/videoNoAds'
+      return response.ctx?.view.render(renderView, { data: resp?.data })
     } catch (error) {
       return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
     }
