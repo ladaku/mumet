@@ -148,7 +148,6 @@ export default class VideosController {
       return response.redirect('/portal/video')
     } catch (error) {
       console.log(error)
-
       return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
     }
   }
