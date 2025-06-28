@@ -33,9 +33,7 @@ export default class VideosController {
         size = request.qs().size
       }
 
-      const results = await fetch(
-        `https://chudai-api.ouwi.fun/api/v1/posts/?page=${page - 1}&size=${size}`
-      )
+      const results = await fetch(`${env.get('API_URL')}/v1/posts/?page=${page - 1}&size=${size}`)
 
       const resultData = (await results.json()) as ListVideo
       //  console.log('hoii', resultData, env.get('WITH_ADS'))
@@ -111,7 +109,7 @@ export default class VideosController {
     if (!slug) return response.ctx?.view.render('pages/errors/not_found')
     try {
       // let blue = await Video.findBy('code', slug)
-      const result = await fetch(`https://chudai-api.ouwi.fun/api/v1/posts/${slug}`)
+      const result = await fetch(`${env.get('API_URL')}/v1/posts/${slug}`)
       let resp = (await result.json()) as DetailVideo
 
       let renderView: string = env.get('WITH_ADS') ? 'pages/video' : 'pages/videoNoAds'
