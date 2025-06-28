@@ -49,6 +49,8 @@ export default class VideosController {
         posts: resultData.data,
       })
     } catch (error) {
+      console.log(error, 'emror')
+
       return response.ctx?.view.render('pages/errors/server_error', { code: 500 })
     }
   }
